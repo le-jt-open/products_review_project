@@ -3,9 +3,11 @@ package com.example.reviewing.window.entity;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Review {
@@ -18,10 +20,10 @@ public class Review {
     private LocalDateTime date;
     private String comment;
 
-    @ManyToOne
+    @OneToOne
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Author author;
 
 	public Long getId() {
