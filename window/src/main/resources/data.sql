@@ -1,3 +1,75 @@
+-- =====================================
+-- DROP TABLES (optionnel - pour reset)
+-- =====================================
+DROP TABLE IF EXISTS review;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS author;
+
+-- =====================================
+-- TABLE: author
+-- =====================================
+CREATE TABLE author (
+    id BIGSERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    type VARCHAR(20) NOT NULL,
+
+    CONSTRAINT chk_author_type
+        CHECK (type IN ('professional', 'amateur'))
+);
+
+-- Index pour recherche rapide
+CREATE INDEX idx_author_name
+ON author(first_name, last_name);
+
+--------------------------------------------------
+
+-- =====================================
+-- TABLE: product
+-- =====================================
+CREATE TABLE product (
+    id BIGSERIAL PRIMARY KEY,
+    reference VARCHAR(50) UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT,
+    price FLOAT(53) NOT NULL,
+    stock INT NOT NULL,
+    currency VARCHAR(10) NOT NULL
+);
+
+--------------------------------------------------
+
+-- =====================================
+-- TABLE: review
+-- =====================================
+CREATE TABLE review (
+    id BIGSERIAL PRIMARY KEY,
+    notation INT NOT NULL
+        CHECK (notation BETWEEN 1 AND 5),
+    date TIMESTAMP NOT NULL,
+    comment TEXT,
+
+    product_id BIGINT NOT NULL,
+    author_id BIGINT NOT NULL,
+
+    CONSTRAINT fk_review_product
+        FOREIGN KEY (product_id)
+        REFERENCES product(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_review_author
+        FOREIGN KEY (author_id)
+        REFERENCES author(id)
+        ON DELETE CASCADE
+);
+
+-- Index pour les performances
+CREATE INDEX idx_review_product
+ON review(product_id);
+
+CREATE INDEX idx_review_author
+ON review(author_id);
+
 -- AUTHORS
 INSERT INTO author (id, first_name, last_name, type) VALUES (1, 'Poha', 'Kuxero', 'professional');
 INSERT INTO author (id, first_name, last_name, type) VALUES (2, 'Kemuwiku', 'Rife', 'amateur');
