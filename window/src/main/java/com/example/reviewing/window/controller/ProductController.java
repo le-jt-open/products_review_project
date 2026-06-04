@@ -21,15 +21,28 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // 🔹 GET all
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    // 🔹 GET by id
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getProductById(id));
+    }
+
+    @GetMapping("/rating/lowest")
+    public ResponseEntity<List<ProductDTO>> getLowestRated() {
+    	return ResponseEntity.ok(productService.getLowestRated());
+    }
+
+    @GetMapping("/rating/highest")
+    public ResponseEntity<List<ProductDTO>> getHighestRated() {
+    	return ResponseEntity.ok(productService.getHighestRated());
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> count() {
+    	return ResponseEntity.ok(productService.countProducts());
     }
 }

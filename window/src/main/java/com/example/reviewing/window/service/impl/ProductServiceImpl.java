@@ -37,18 +37,24 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.toDTO(product);
     }
 
-    @Override
-    public ProductDTO createProduct(ProductDTO productDTO) {
-        Product product = ProductMapper.toEntity(productDTO);
-        Product saved = productRepository.save(product);
-        return ProductMapper.toDTO(saved);
-    }
+	@Override
+	public List<ProductDTO> getHighestRated() {
+		return productRepository.findTop5BestRatedProducts()
+				.stream()
+				.map(ProductMapper::toDTO)
+				.toList();
+	}
 
-    @Override
-    public void deleteProduct(Long id) {
-        if (!productRepository.existsById(id)) {
-            throw new EntityNotFoundException("Product not found");
-        }
-        productRepository.deleteById(id);
-    }
+	@Override
+	public List<ProductDTO> getLowestRated() {
+		return productRepository.findTop5WorstRatedProducts()
+				.stream()
+				.map(ProductMapper::toDTO)
+				.toList();
+	}
+
+	@Override
+	public long countProducts() {
+		return productRepository.count();
+	}
 }

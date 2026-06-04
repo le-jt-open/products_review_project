@@ -39,8 +39,6 @@ public class ProductMapper {
         product.setPrice(dto.price());
         product.setStock(dto.stock());
         product.setCurrency(dto.currency());
-
-        // ⚠️ reviews souvent gérées séparément
         return product;
     }
 }
