@@ -14,16 +14,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         JOIN p.reviews r
         WHERE r.notation > 3
         GROUP BY p
-        ORDER BY AVG(r.notation) DESC NULLS LAST
+        ORDER BY AVG(r.notation) DESC
         LIMIT 5
     """)
     List<Product> findTop5BestRatedProducts();
 
 @Query("""
        SELECT p FROM Product p
-       LEFT JOIN p.reviews r
+       JOIN p.reviews r
        GROUP BY p
-       ORDER BY AVG(r.notation) ASC NULLS LAST
+       ORDER BY AVG(r.notation) ASC
        LIMIT 5
    """)
    List<Product> findTop5WorstRatedProducts();
