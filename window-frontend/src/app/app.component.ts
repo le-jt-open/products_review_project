@@ -49,10 +49,10 @@ export class AppComponent implements OnInit {
     this.http.get<number>('http://localhost:8080/api/reviews/count')
       .subscribe(data => this.reviewCount = data);
 
-    this.http.get<any[]>('http://localhost:8080/api/products/top-rated')
+    this.http.get<any[]>('http://localhost:8080/api/products/rating/highest')
       .subscribe(data => this.topProducts = data);
 
-    this.http.get<any[]>('http://localhost:8080/api/products/worst-rated')
+    this.http.get<any[]>('http://localhost:8080/api/products/rating/lowest')
       .subscribe(data => this.worstProducts = data);
 
     this.http.get<any[]>('http://localhost:8080/api/products')
